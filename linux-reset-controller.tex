@@ -73,7 +73,7 @@
 		\item The one used by devices drivers, in \textcolor{gray}{include/linux/reset.h}:
 			\begin{itemize}
 				%\item Defined in \textcolor{gray}{include/linux/reset.h}
-				\item \textit{\textcolor{blue}{struct} reset\_control}: data structure corresponding to the reset controller driver being used
+				\item \textit{\textcolor{blue}{struct} reset\_control}: data structure corresponding to the reset line being used by the consumer
 				\item \textit{reset\_control\_reset}: does all required things to reset the device connected to this signal (self-asserting/deasserting)
 				\item \textit{reset\_control\_assert}: manually asserts the reset line
 				\item \textit{reset\_control\_status}: get the status of the reset line
