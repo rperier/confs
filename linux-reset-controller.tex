@@ -1,6 +1,6 @@
 \documentclass{beamer}
 \usepackage[utf8]{inputenc}
-\usepackage{color}
+\usepackage{xcolor}
 \usetheme{Warsaw}
 
 \title{Reset controller framework: how to use it}
@@ -58,13 +58,26 @@
 	\includegraphics[scale=0.4]{reset_framework_architecture.png}
 \end{frame}
 
-\begin{frame}{Available features}
+\begin{frame}{Interface of the reset framework}
+	You have type of interfaces:
 	\begin{itemize}
-		\item \textit{reset\_control\_assert()}: description (what does it do?)
-		\item \textit{reset\_control\_assert()}: description (what does it do?)
-		\item \textit{reset\_control\_status()}: description (what does it do?)
-		\item \textit{reset\_control\_reset()}: description (what does it do?)
-
+		\item The one used by the reset controller driver, in \textcolor{gray}{include/linux/reset-controller.h}:
+			\begin{itemize}
+				%\item Defined in \textcolor{gray}{include/linux/reset-controller.h}
+				\item \textit{reset\_controller\_register}: register your reset system to the kernel
+				\item \textit{\textcolor{blue}{struct} reset\_control\_ops}: operations invoked by the RCF, containing callbacks implemented by your driver
+				\item \textit{\textcolor{blue}{struct} reset\_controller\_dev}: data structure of the reset system driver that is going to be registered to the kernel
+			\end{itemize}
+	\end{itemize}
+	\begin{itemize}
+		\item The one used by devices drivers, in \textcolor{gray}{include/linux/reset.h}:
+			\begin{itemize}
+				%\item Defined in \textcolor{gray}{include/linux/reset.h}
+				\item \textit{\textcolor{blue}{struct} reset\_control}: data structure corresponding to the reset controller driver being used
+				\item \textit{reset\_control\_reset}: does all required things to reset the device connected to this signal (self-asserting/deasserting)
+				\item \textit{reset\_control\_assert}: manually asserts the reset line
+				\item \textit{reset\_control\_status}: get the status of the reset line
+			\end{itemize}
 	\end{itemize}
 \end{frame}
 
