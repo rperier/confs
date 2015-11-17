@@ -1,6 +1,7 @@
 \documentclass{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
+\usepackage{listings}
 \usetheme{Warsaw}
 
 \title{Reset controller framework: how to use it}
@@ -63,7 +64,6 @@
 	\begin{itemize}
 		\item The one used by the reset controller driver, in \textcolor{gray}{include/linux/reset-controller.h}:
 			\begin{itemize}
-				%\item Defined in \textcolor{gray}{include/linux/reset-controller.h}
 				\item \textit{reset\_controller\_register}: register your reset system to the kernel
 				\item \textit{\textcolor{blue}{struct} reset\_control\_ops}: operations invoked by the RCF, containing callbacks implemented by your driver
 				\item \textit{\textcolor{blue}{struct} reset\_controller\_dev}: data structure of the reset system driver that is going to be registered to the kernel
@@ -72,7 +72,6 @@
 	\begin{itemize}
 		\item The one used by devices drivers, in \textcolor{gray}{include/linux/reset.h}:
 			\begin{itemize}
-				%\item Defined in \textcolor{gray}{include/linux/reset.h}
 				\item \textit{\textcolor{blue}{struct} reset\_control}: data structure corresponding to the reset line being used by the consumer
 				\item \textit{reset\_control\_reset}: does all required things to reset the device connected to this signal (self-asserting/deasserting)
 				\item \textit{reset\_control\_assert}: manually asserts the reset line
@@ -84,12 +83,31 @@
 \begin{frame}{Implementation of the reset controller framework core}
 	Everything is in \textcolor{gray}{drivers/reset/core.c}, it does the following:
 	\begin{itemize}
-		\item Maitain a list of reset controller drivers
-		\item Pass all reset lines operations to the right reset controller driver
-		\item Also, pass the identifier of the corresponding line to the driver, including translations if required
+		\item Maintain a list of reset controller drivers
+		\item Forward all reset lines operations to the right reset controller driver
+		\item Also, pass the identifier of the corresponding line to the driver, including remapping if needed
 		\item Provides allocation functions to retrieve a \textit{\textcolor{blue}{struct} reset\_control} from the devicetree
-		\item However, you need to take care of concurrency prevention yourself, in your driver
+		\item However, you need to take care about concurrency prevention yourself, in your driver
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{How to add your own reset controller driver}
+	You need to define reset controller operations implemented in \textcolor{gray}{include/linux/reset-controller.h}
+	\lstinputlisting[language=C,basicstyle=\footnotesize\ttfamily,keywordstyle=\bfseries\color{blue},breaklines=true,commentstyle=\color{gray}\ttfamily]{reset-control-ops.h}
+\end{frame}
+
+
+\begin{frame}{Registering the reset controller driver}
+	\begin{itemize}
+		\item Allocate a \textit{\textcolor{blue}{struct} reset\_controller\_dev}, then populate the following fields:
+		\begin{itemize}
+			\item \textit{.ops}: a pointer to the previous data structure defining your drivers operations
+			\item \textit{.owner}: usually \textit{THIS\_MODULE}
+			\item \textit{.of\_node}: a pointer to \textit{\textcolor{blue}{struct} device\_node}
+			\item \textit{.nr\_resets}: number of reset lines
+		\end{itemize}
+		\item \textit{.of\_xlate}: you can also define a mapping function to translate logicals to physicals identifiers, for a reset line (optional)
+		\item Then call the function \textit{reset\_controller\_register}
+	\end{itemize}
+\end{frame}
 \end{document}
