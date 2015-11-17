@@ -81,4 +81,15 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{Implementation of the reset controller framework core}
+	Everything is in \textcolor{gray}{drivers/reset/core.c}, it does the following:
+	\begin{itemize}
+		\item Maitain a list of reset controller drivers
+		\item Pass all reset lines operations to the right reset controller driver
+		\item Also, pass the identifier of the corresponding line to the driver, including translations if required
+		\item Provides allocation functions to retrieve a \textit{\textcolor{blue}{struct} reset\_control} from the devicetree
+		\item However, you need to take care of concurrency prevention yourself, in your driver
+	\end{itemize}
+\end{frame}
+
 \end{document}
