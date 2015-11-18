@@ -1,5 +1,5 @@
 static int meson_reset_assert(struct reset_controller_dev *rcdev,
-				  unsigned long id)
+                              unsigned long id)
 {
     u32 reg;
     struct meson_reset_data *priv = container_of(rcdev,
@@ -11,7 +11,7 @@ static int meson_reset_assert(struct reset_controller_dev *rcdev,
 }
 
 static int meson_reset_deassert(struct reset_controller_dev *rcdev,
-				    unsigned long id)
+                                unsigned long id)
 {
     u32 reg;
     struct meson_reset_data *priv = container_of(rcdev,
