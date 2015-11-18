@@ -40,7 +40,7 @@
 		\item On some SoCs devices include a reset line that is driven by a reset system
 		\item Some IP blocks have the ability to reset their clock domains or do internal initializations when its reset line is asserted/deasserted
 		\item It is strongly platform dependent, but you might have to generate software resets for powering peripherals
-		\item you might have to generate software resets to powering off peripherals
+		\item you might have to generate software resets to powering off peripherals or restart their internal logic
 	\end{itemize}
 \end{frame}
 
@@ -122,9 +122,39 @@
 \end{frame}
 
 \begin{frame}{How to interface your driver with the devicetree}
-	It's pretty simple, for the consumer define a basic device\_node:
+	It's pretty simple:
+	\begin{itemize}
+		\item For the provider:
+		\begin{itemize}
+			\item Define a basic \textit{device\_node} in your devicetree, matching your compatility identifiers
+			\item Make sure that \textit{\textcolor{gray}{\#reset-cells}} is equal to \textit{.of\_reset\_n\_cells}
+		\end{itemize}
+		\item For the consumer:
+		\begin{itemize}
+			\item Use the property \textit{\textcolor{gray}{resets}} for devices that will use your rstc
+			\item This property contains one or more phandle with argument corresponding to the reset line identifier passed to the specifier
+			\item When there are more than one phandle, use the property \textit{\textcolor{gray}{resets-names}} to retrieve them easily from your device driver
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Example: How to interface your driver with the devicetree}
+	For the provider:
 	\lstinputlisting[language=xml, keywordstyle=\color{gray},basicstyle=\tiny\ttfamily,stringstyle=\color{red},commentstyle=\color{gray},otherkeywords={\#reset-cells}]{reset-controller.dts}
-	For the consumer, reference this node from the devicetree:
+	For the consumer:
 	\lstinputlisting[language=xml, keywordstyle=\color{gray},basicstyle=\tiny\ttfamily,stringstyle=\color{red},commentstyle=\color{gray},otherkeywords={\#reset-cells}]{reset-consumer.dts}
+	The identifier passed to \textit{rst} will be also be passed to the function \newline\textit{\textcolor{blue}{int} meson\_reset\_assert(\textcolor{blue}{struct} reset\_controller\_dev *, \textcolor{blue}{unsigned long})},\newline when the RCF will invoke your driver operations
+\end{frame}
+
+\begin{frame}{Use reset lines from device drivers}
+
+\end{frame}
+
+\begin{frame}{Thank you!}
+	\centering{\includegraphics[scale=0.3]{tuxquestion.png}}
+	\vfill
+	\vfill
+	\centering{Slides under CC-BY-SA 3.0}
+	\url{https://github.com/rperier/confs}
 \end{frame}
 \end{document}

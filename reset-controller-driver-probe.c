@@ -2,7 +2,6 @@
 static struct reset_control_ops meson_reset_ops = {
     .assert   = meson_reset_assert,
     .deassert = meson_reset_deassert,
-    .status = meson_reset_status,
 };
 
 static int meson_reset_probe(struct platform_device *pdev)

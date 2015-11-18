@@ -5,7 +5,6 @@ device {
 
 device {
     compatible = "vendor,foo-bar";
-    /* we pass reset lines identifiers as arguments */
     resets = <&rst 42>, <&rst 43>;
     resets-name = "reset1", "reset2";
 };

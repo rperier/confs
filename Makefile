@@ -8,5 +8,5 @@ OUTNAME = reset_framework_architecture.png linux-reset-controller.pdf
 all: $(OUTNAME)
 
 clean:
-	$(RM) *.toc *.txt *.out *.snm *.nav *.aux *.log *.pdf *.png
+	$(RM) *.toc *.txt *.out *.snm *.nav *.aux *.log $(OUTNAME)
 
