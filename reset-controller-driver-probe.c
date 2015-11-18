@@ -18,6 +18,7 @@ static int meson_reset_probe(struct platform_device *pdev)
     priv->rcdev.nr_resets = 4 * 32;
     priv->rcdev.ops = &meson_reset_ops;
     priv->rcdev.of_node = pdev->dev.of_node;
+    priv->rcdev.of_reset_n_cells = 1;
     return reset_controller_register(&priv->rcdev);
 }
 
