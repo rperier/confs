@@ -147,7 +147,17 @@
 \end{frame}
 
 \begin{frame}{Use reset lines from device drivers}
+	\lstinputlisting[language=C,basicstyle=\small\ttfamily,keywordstyle=\bfseries\color{blue},breaklines=true,commentstyle=\color{gray}\ttfamily]{of_reset_control.c}
+	\begin{itemize}
+		\item To do so you need to instantiate a \textit{\textcolor{blue}{struct} reset\_control} from the \textit{\textcolor{gray}{resets}} property by using the above function
+		\item Pass the name of one reset line listed in \textit{\textcolor{gray}{reset-names}} as second argument or \textit{\textcolor{cyan}{NULL}} if the \textit{\textcolor{gray}{resets}} property contains a single phandle 
+		\item Use functions from consumer API in order to change the state of your reset line, \textit{reset\_control\_assert} typically
+		\item Each time you call a function on a reset line, the reset framework will delegate the corresponding operation to the reset controller driver
+	\end{itemize}
+\end{frame}
 
+\begin{frame}{Example of device driver that uses a reset line}
+	\lstinputlisting[language=C,basicstyle=\tiny\ttfamily,keywordstyle=\bfseries\color{blue},breaklines=true,commentstyle=\color{gray}\ttfamily]{reset-consumer.c}
 \end{frame}
 
 \begin{frame}{Thank you!}
