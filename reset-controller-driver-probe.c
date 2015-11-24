@@ -5,9 +5,9 @@ static int meson_reset_probe(struct platform_device *pdev)
     priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
     if (!priv)
         return -ENOMEM;
-    [...]
+[...]
     priv->rcdev.owner = THIS_MODULE;
-    priv->rcdev.nr_resets = 4 * 32;
+    priv->rcdev.nr_resets = NR_BANKS * BITS_PER_LONG;
     priv->rcdev.ops = &meson_reset_ops;
     priv->rcdev.of_node = pdev->dev.of_node;
     priv->rcdev.of_reset_n_cells = 1;
