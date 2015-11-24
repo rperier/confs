@@ -162,8 +162,13 @@
 \end{frame}
 
 \begin{frame}{reset: API}
-	You have also these functions
-	\lstinputlisting[language=C,basicstyle=\scriptsize\ttfamily,keywordstyle=\bfseries\color{blue},breaklines=true,commentstyle=\color{gray}\ttfamily]{reset.h}
+	You have also these functions:
+	\begin{itemize}
+		\lstinputlisting[language=C,basicstyle=\scriptsize\ttfamily,keywordstyle=\bfseries\color{blue},breaklines=true,commentstyle=\color{gray}\ttfamily]{reset.h}
+	\item \textit{reset\_control\_get}: retrieve the reset line described by \textit{\textcolor{gray}{id}} from the devicetree for the corresponding device
+		\item \textit{devm\_reset\_control\_get}: same thing but with managed resources (no need to call \textit{reset\_control\_put})
+		\item \textit{device\_reset\_optional}: retrieve the unique reset line associated to this device, call the \textit{\textcolor{gray}{reset}} operation, then release the object
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Thank you!}
