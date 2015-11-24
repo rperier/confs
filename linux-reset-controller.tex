@@ -100,14 +100,15 @@
 \begin{frame}{Registering the reset controller driver}
 	\begin{itemize}
 		\item Allocate a \textit{\textcolor{blue}{struct} reset\_controller\_dev}, then populate the following fields:
-		\begin{itemize}
-			\item \textit{.ops}: a pointer to the previous data structure defining your drivers operations
-			\item \textit{.owner}: usually \textit{THIS\_MODULE}
-			\item \textit{.of\_node}: a pointer to \textit{\textcolor{blue}{struct} device\_node}
-			\item \textit{.nr\_resets}: number of reset lines
-			\item \textit{.of\_reset\_n\_cells}: Number of cells in a reset controller specifier, it should match \textit{reset-cells} from the devicetree
-		\end{itemize}
-		\item \textit{.of\_xlate}: you can also define a mapping function to translate logicals to physicals identifiers, for a reset line (optional)
+		\lstinputlisting[language=C,basicstyle=\scriptsize\ttfamily,keywordstyle=\bfseries\color{blue},breaklines=true,commentstyle=\color{gray}\ttfamily]{reset-controller-dev.h}
+		%\begin{itemize}
+		%	\item \textit{.ops}: a pointer to the previous data structure defining your drivers operations
+		%	\item \textit{.owner}: usually \textit{THIS\_MODULE}
+		%	\item \textit{.of\_node}: a pointer to \textit{\textcolor{blue}{struct} device\_node}
+		%	\item \textit{.nr\_resets}: number of reset lines
+		%	\item \textit{.of\_reset\_n\_cells}: Number of cells in a reset controller specifier, it should match \textit{reset-cells} from the devicetree
+		%\end{itemize}
+		%\item \textit{.of\_xlate}: you can also define a mapping function to translate logicals to physicals identifiers, for a reset line (optional)
 		\item Then call the function \textit{reset\_controller\_register}
 		\item Usually implemented in \textcolor{gray}{drivers/reset}, but there are few exceptions. Sometimes you might find reset controller drivers in \textcolor{gray}{drivers/clk}, when it has to do with the CRU
 	\end{itemize}
@@ -140,9 +141,9 @@
 
 \begin{frame}{Example: How to interface your driver with the devicetree}
 	For the provider:
-	\lstinputlisting[language=xml, keywordstyle=\color{gray},basicstyle=\tiny\ttfamily,stringstyle=\color{red},commentstyle=\color{gray},otherkeywords={\#reset-cells}]{reset-controller.dts}
+	\lstinputlisting[language=xml, keywordstyle=\color{gray},basicstyle=\scriptsize\ttfamily,stringstyle=\color{red},commentstyle=\color{gray},otherkeywords={\#reset-cells}]{reset-controller.dts}
 	For the consumer:
-	\lstinputlisting[language=xml, keywordstyle=\color{gray},basicstyle=\tiny\ttfamily,stringstyle=\color{red},commentstyle=\color{gray},otherkeywords={\#reset-cells}]{reset-consumer.dts}
+	\lstinputlisting[language=xml, keywordstyle=\color{gray},basicstyle=\scriptsize\ttfamily,stringstyle=\color{red},commentstyle=\color{gray},otherkeywords={\#reset-cells}]{reset-consumer.dts}
 	The identifier passed to \textit{rst} will be also be passed to the function \newline\textit{\textcolor{blue}{int} meson\_reset\_assert(\textcolor{blue}{struct} reset\_controller\_dev *, \textcolor{blue}{unsigned long})},\newline when the RCF will invoke your driver operations
 \end{frame}
 
