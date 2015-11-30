@@ -1,0 +1,13 @@
+chip_rst: reset {
+    #reset-cells = <2>;
+    compatible = "marvell,berlin2-reset";
+};
+[...]
+usb_phy0: phy@b74000 {
+    compatible = "marvell,berlin2cd-usb-phy";
+    reg = <0xb74000 0x128>;
+    #phy-cells = <0>;
+    resets = <&chip_rst 0x104 12>;
+    status = "disabled";
+};
+
