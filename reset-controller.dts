@@ -1,5 +1,6 @@
 rst: reset-controller@c1100000 {
 	#reset-cells = <1>;
 	compatible = "amlogic,meson-reset";
+	reg = <0xc1100000 0x1058>;
 	status = "okay";
 };
